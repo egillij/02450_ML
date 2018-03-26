@@ -1,0 +1,16 @@
+Linkar af síðum sem notuðu Poker hand dataset
+
+https://github.com/Keshav-Aggarwal/Poker-Hand-Dataset/blob/master/Prediction.ipynb
+
+https://www.researchgate.net/publication/220743167_Discovering_rules_in_the_poker_hand_dataset
+
+https://www.reddit.com/r/MachineLearning/comments/61kym3/p_poker_hand_classification_advice_needed/
+
+https://www.kaggle.com/c/poker-rule-induction/discussion/11177
+https://www.kaggle.com/c/poker-rule-induction
+
+https://github.com/sahirnoorali/poker-hand-analysis
+
+
+
+
