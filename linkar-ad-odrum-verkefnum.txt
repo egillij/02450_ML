@@ -13,4 +13,12 @@ https://github.com/sahirnoorali/poker-hand-analysis
 
 
 
+Gamlar skýrslur úr áfanganum
+https://github.com/frksteenhoff/02450_MachineLearning
+https://github.com/zachasme/school-machinelearning
+https://github.com/TroelsHH/ML_02450
+
+
+
+
 
