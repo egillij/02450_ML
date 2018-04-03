@@ -432,18 +432,14 @@ def classify():
         print("Artificial Neural Network Classification")
         print(dt.datetime.now())
         k = 0
-        #Adjust number of nodes in hidden layers
-        NHiddenUnits = np.arange(10, 101, 25)
-        hidden = []
-        for q in NHiddenUnits:
-            for e in NHiddenUnits:
-                hidden.append((q, e))
+
+        inner_K = 5
 
         # Initialize variables
-        Error_train_weighted = np.empty((len(hidden), K))
-        Error_test_weighted = np.empty((len(hidden), K))
-        Error_train = np.empty((len(hidden), K))
-        Error_test = np.empty((len(hidden), K))
+        Error_train_weighted = np.empty((inner_K, K))
+        Error_test_weighted = np.empty((inner_K, K))
+        Error_train = np.empty((inner_K, K))
+        Error_test = np.empty((inner_K, K))
 
         class_report_test = []  # np.empty((len(tc), K), dtype=str)
         class_report_train = []  # np.empty((len(tc), K), dtype=str)
@@ -464,39 +460,47 @@ def classify():
             conf_mat_tst = []
             conf_mat_tr = []
 
+            k_i = 0
+            CV2 = model_selection.KFold(n_splits=inner_K, shuffle=True)
             #Test and train for every hidden layer combination
-            for i, n in enumerate(tqdm(hidden)):
+            for train_index_inner, test_index_inner in enumerate(tqdm(CV2.split(X_train, y_train))):
+                X_train_inner, y_train_inner = X[train_index_inner, :], y[train_index_inner]
+                X_test_inner, y_test_inner = X[test_index_inner, :], y[test_index_inner]
+
+
                 # %% Model fitting and prediction
                 ## ANN Classifier, i.e. MLP with one hidden layer
                 clf = neural_network.MLPClassifier(solver='adam', alpha=1e-4, activation="tanh",
-                                                   hidden_layer_sizes=n, random_state=1)#, max_iter=2000)
-                clf.fit(X_train, np.asarray(y_train).squeeze())
+                                                   hidden_layer_sizes=(60, 60), random_state=1)#, max_iter=2000)
+                clf.fit(X_train_inner, np.asarray(y_train_inner).squeeze())
 
-                y_est_test = clf.predict(X_test)
-                y_est_train = clf.predict(X_train)
+                y_est_test = clf.predict(X_test_inner)
+                y_est_train = clf.predict(X_train_inner)
 
                 df_class_train = pd.DataFrame.from_dict(
-                    data={"value": pd.Series(np.asarray(y_train).squeeze()), "estimate": pd.Series(y_est_train)})
+                    data={"value": pd.Series(np.asarray(y_train_inner).squeeze()), "estimate": pd.Series(y_est_train)})
                 df_class_test = pd.DataFrame.from_dict(
-                    data={"value": pd.Series(np.asarray(y_test).squeeze()), "estimate": pd.Series(y_est_test)})
+                    data={"value": pd.Series(np.asarray(y_test_inner).squeeze()), "estimate": pd.Series(y_est_test)})
 
                 #Weighted misclassification rate
-                Error_test_weighted[i, k] = score_func(df_class_test, prob_dict)
-                Error_train_weighted[i, k] = score_func(df_class_train, prob_dict)
+                Error_test_weighted[k_i, k] = score_func(df_class_test, prob_dict)
+                Error_train_weighted[k_i, k] = score_func(df_class_train, prob_dict)
 
                 #Misclassification rate
-                Error_test[i, k] = len(
+                Error_test[k_i, k] = len(
                     df_class_test[(df_class_test['estimate'] != df_class_test['value'])]) / float(
                     len(df_class_test))
-                Error_train[i, k] = len(
+                Error_train[k_i, k] = len(
                     df_class_train[(df_class_train['estimate'] != df_class_train['value'])]) / float(
                     len(df_class_train))
 
                 #Classification reports and confusion matrices
-                cl_report_tst.append(classification_report(np.asarray(y_test).squeeze(), y_est_test))
-                cl_report_tr.append(classification_report(np.asarray(y_train).squeeze(), y_est_train))
-                conf_mat_tst.append(str(confusion_matrix(np.asarray(y_test).squeeze(), y_est_test)))
-                conf_mat_tr.append(str(confusion_matrix(np.asarray(y_train).squeeze(), y_est_train)))
+                cl_report_tst.append(classification_report(np.asarray(y_test_inner).squeeze(), y_est_test))
+                cl_report_tr.append(classification_report(np.asarray(y_train_inner).squeeze(), y_est_train))
+                conf_mat_tst.append(str(confusion_matrix(np.asarray(y_test_inner).squeeze(), y_est_test)))
+                conf_mat_tr.append(str(confusion_matrix(np.asarray(y_train_inner).squeeze(), y_est_train)))
+
+                k_i += 1
 
             k += 1
             class_report_test.append(cl_report_tst)
