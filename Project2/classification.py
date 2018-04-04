@@ -76,8 +76,8 @@ def classify():
     for hand in classDict.keys():
         prob_dict[hand] = len(df[(df['Hand'] == hand)])/float(len(df))
 
-    X = X[0:1000]
-    y = y[0:1000]
+    # X = X[0:1000]
+    # y = y[0:1000]
 
     print("DATA LOADED")
 
@@ -95,18 +95,18 @@ def classify():
         print(dt.datetime.now())
 
         # ADJUST TREE PARAMETERS (MIN SAMPLES FOR SPLIT)
-        tc = np.arange(5, 25, 2)
-        tc = tc.tolist()
-        tc.extend(np.arange(25, 150, 10))
+        # tc = np.arange(5, 25, 2)
+        # tc = tc.tolist()
+        # tc.extend(np.arange(25, 150, 10))
 
         #ADJUST TREE DEPTH
-        # tc = np.arange(10, 500, 25)
+        tc = np.arange(5, 200, 5)
 
         # Initialize variables
         Error_train_weighted = np.empty((len(tc), K))
         Error_test_weighted = np.empty((len(tc), K))
         Error_train = np.empty((len(tc), K))
-        Error_test = np.empty((len(tc), K))
+        Error_test = np.empty((len(tc), K)),
 
         class_report_test = []
         class_report_train = []
@@ -130,7 +130,7 @@ def classify():
             # Train and test all tree d
             for i, t in enumerate(tqdm(tc)):
                 # Fit decision tree classifier
-                dtc = tree.DecisionTreeClassifier(criterion='gini', min_samples_split=t)# max_depth=t
+                dtc = tree.DecisionTreeClassifier(criterion='gini', max_depth=t)#min_samples_split=t)# max_depth=t
                 dtc = dtc.fit(X_train, y_train)
 
                 # try:
@@ -171,7 +171,7 @@ def classify():
         f = plt.figure(figsize=(12,8))
         plt.title(classifiers[0], fontsize=32)
         plt.boxplot(Error_test_weighted.T)
-        plt.xlabel('Model complexity (min sample split)', fontsize=28)#(min sample split)', fontsize=28)
+        plt.xlabel('Model complexity (max tree depth)', fontsize=28)#(min sample split)', fontsize=28)
         plt.ylabel('Test error across CV folds, K={0})'.format(K), fontsize=28)
         for tick in plt.gca().xaxis.get_major_ticks():
             tick.label.set_fontsize(26)
@@ -181,22 +181,23 @@ def classify():
 
         f = plt.figure(figsize=(12,8))
         plt.title(classifiers[0], fontsize=32)
-        plt.plot(tc, Error_train_weighted.mean(1), 'b-', linewidth=3)
-        plt.plot(tc, Error_test_weighted.mean(1), 'g-', linewidth=3)
+        # plt.plot(tc, Error_train_weighted.mean(1), 'b-', linewidth=3)
+        # plt.plot(tc, Error_test_weighted.mean(1), 'g-', linewidth=3)
         plt.plot(tc, Error_train.mean(1), 'r--', linewidth=3)
         plt.plot(tc, Error_test.mean(1), 'c-.', linewidth=3)
-        plt.xlabel('Model complexity (min sample split)', fontsize=28)#(min sample split)', fontsize=28)
+        plt.xlabel('Model complexity (max tree depth)', fontsize=28)#(min sample split)', fontsize=28)
         plt.ylabel('Misclassification rate, CV K={0}'.format(K), fontsize=28)
-        plt.legend(['Weighted Training', 'Weighted Testing', 'Un-Weighted Training',
-                    'Un-Weighted Testing'], fontsize=26)
+        plt.legend(['Training', 'Testing'], fontsize=26)
+        # plt.legend(['Weighted Training', 'Weighted Testing', 'Un-Weighted Training',
+        #             'Un-Weighted Testing'], fontsize=26)
         for tick in plt.gca().xaxis.get_major_ticks():
             tick.label.set_fontsize(26)
         for tick in plt.gca().yaxis.get_major_ticks():
             tick.label.set_fontsize(26)
         plt.savefig("{0}_errors_min_sample.png".format(classifiers[0]).replace(' ', '_'))
 
-        text_summary(class_report_test, conf_matrices_test, tc, "DECISION_TREE_TEST", "MIN SAMPLE SPLIT", K, Error_test, Error_test_weighted, prob_dict)
-        text_summary(class_report_train, conf_matrices_train, tc, "DECISION_TREE_TRAIN", "MIN SAMPLE SPLIT", K, Error_train, Error_train_weighted, prob_dict)
+        text_summary(class_report_test, conf_matrices_test, tc, "DECISION_TREE_TEST", "MAX TREE DEPTH", K, Error_test, Error_test_weighted, prob_dict)
+        text_summary(class_report_train, conf_matrices_train, tc, "DECISION_TREE_TRAIN", "MAX TREE DEPTH", K, Error_train, Error_train_weighted, prob_dict)
 
     print(dt.datetime.now())
     ################################################################################################################
@@ -314,7 +315,7 @@ def classify():
     ################################################################################################################
     ######################################            Naive Bayes             ######################################
     ################################################################################################################
-    if 0:
+    if 1:
         print("Naive Bayes Classification")
         print(dt.datetime.now())
         k = 0
@@ -404,14 +405,15 @@ def classify():
 
         f = plt.figure(figsize=(12,8))
         plt.title(classifiers[2], fontsize=32)
-        plt.plot(alpha, Error_train_weighted.mean(1), 'b-', linewidth=3)
-        plt.plot(alpha, Error_test_weighted.mean(1), 'g-', linewidth=3)
+        # plt.plot(alpha, Error_train_weighted.mean(1), 'b-', linewidth=3)
+        # plt.plot(alpha, Error_test_weighted.mean(1), 'g-', linewidth=3)
         plt.plot(alpha, Error_train.mean(1), 'r--', linewidth=3)
         plt.plot(alpha, Error_test.mean(1), 'c-.', linewidth=3)
         plt.xlabel('Model complexity (Smoothing constant)', fontsize=28)
         plt.ylabel('Misclassification rate, CV K={0}'.format(K), fontsize=28)
-        plt.legend(['Weighted Training', 'Weighted Testing', 'Un-Weighted Training',
-                    'Un-Weighted Testing'], fontsize=26)
+        plt.legend(['Training', 'Testing'], fontsize=26)
+        # plt.legend(['Weighted Training', 'Weighted Testing', 'Un-Weighted Training',
+        #             'Un-Weighted Testing'], fontsize=26)
         for tick in plt.gca().xaxis.get_major_ticks():
             tick.label.set_fontsize(26)
         for tick in plt.gca().yaxis.get_major_ticks():
@@ -428,7 +430,7 @@ def classify():
     ################################################################################################################
     ###############################            Artificial Neural Network             ###############################
     ################################################################################################################
-    if 0:
+    if 1:
         print("Artificial Neural Network Classification")
         print(dt.datetime.now())
         k = 0
@@ -519,15 +521,16 @@ def classify():
 
         f = plt.figure(figsize=(12,8))
         plt.title(classifiers[3], fontsize=32)
-        plt.plot(range(len(hidden)), Error_train_weighted.mean(1), 'b-', linewidth=3)
-        plt.plot(range(len(hidden)), Error_test_weighted.mean(1), 'g-', linewidth=3)
+        # plt.plot(range(len(hidden)), Error_train_weighted.mean(1), 'b-', linewidth=3)
+        # plt.plot(range(len(hidden)), Error_test_weighted.mean(1), 'g-', linewidth=3)
         plt.plot(range(len(hidden)), Error_train.mean(1), 'r--', linewidth=3)
         plt.plot(range(len(hidden)), Error_test.mean(1), 'c-.', linewidth=3)
         plt.xticks(range(len(hidden)), [str(x) for x in hidden], rotation=90, fontsize=26)
         plt.xlabel('Model complexity (# of units in hidden layers)', fontsize=28)
         plt.ylabel('Misclassification rate, CV K={0}'.format(K), fontsize=28)
-        plt.legend(['Weighted Training', 'Weighted Testing', 'Un-Weighted Training',
-                    'Un-Weighted Testing'], fontsize=26)
+        plt.legend(['Training', 'Testing'], fontsize=26)
+        # plt.legend(['Weighted Training', 'Weighted Testing', 'Un-Weighted Training',
+        #             'Un-Weighted Testing'], fontsize=26)
         for tick in plt.gca().yaxis.get_major_ticks():
             tick.label.set_fontsize(26)
         plt.tight_layout()
@@ -540,7 +543,7 @@ def classify():
     ################################################################################################################
     ################################################################################################################
 
-    plt.show()
+    # plt.show()
 
 
 

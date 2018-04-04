@@ -100,7 +100,7 @@ def classify():
         # tc.extend(np.arange(25, 150, 10))
 
         #ADJUST TREE DEPTH
-            tc = np.arange(10, 500, 25)
+        tc = np.arange(10, 500, 25)
 
         # Initialize variables
         Error_train_weighted = np.empty((len(tc), K))
