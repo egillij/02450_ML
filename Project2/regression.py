@@ -18,43 +18,15 @@ classNames = ["Nothing", "One pair", "Two pairs", "Three of a kind", "Straight",
 classDict = dict(zip(range(len(classNames)), classNames))
 
 def main():
-
-    ###### LOAD ALL DATA INTO MEMORY #########################################
-#    print("LOADING DATA")
-#     # Load xls sheet with data
-#    doc = xlrd.open_workbook('../PokerHand_all.xlsx').sheet_by_index(0)
-#    
-#    
-#    # Compute v*alues of N, M and C.
-#    N = doc.nrows - 1  # number of rows in the dataset
-#    M = doc.ncols - 1  # number of columns in dataset
-#    C = len(classNames)
-#    
-#     #Get names of  every attribute
-#    attributeNames = doc.row_values(0, 0, M)
-#    
-#     # Extract vector y, convert to NumPy matrix and transpose
-#    y = np.mat(doc.col_values(doc.ncols - 1, 1, N)).T
-#    
-#    df_all = pd.DataFrame.from_dict(data={"values": pd.Series(np.asarray(y).squeeze())})
-#    
-#    prob_dict = {}
-#    for hand in classDict.keys():
-#        prob_dict[hand] = len(df_all[(df_all['values']==hand)])/float(len(df_all))
-#    
-#     # Preallocate memory, then extract excel data to matrix X
-#    X = np.mat(np.empty((N - 1, M)))
-#    for i, col_id in enumerate(range(0, M)):
-#        X[:, i] = np.mat(doc.col_values(col_id, 1, N)).T
-#    
-#     # Standardize data by removing the mean
-#    X_hat =  X - np.ones((N-1,1))*X.mean(0) #zscore(X)
-    #####################################################################
-    
     df = pd.read_excel('../PokerHand_all.xlsx')
-    df = pd.get_dummies(df, columns=['Suit 1', 'Suit 2', 'Suit 3', 'Suit 4', 'Suit 5'])
-    df = pd.get_dummies(df, columns=['Rank 1', 'Rank 2', 'Rank 3', 'Rank 4', 'Rank 5'])
-    # print(df.head())
+    
+    one_out_of_K = True    
+    
+    
+    if one_out_of_K:        
+        df = pd.get_dummies(df, columns=['Suit 1', 'Suit 2', 'Suit 3', 'Suit 4', 'Suit 5'])
+        df = pd.get_dummies(df, columns=['Rank 1', 'Rank 2', 'Rank 3', 'Rank 4', 'Rank 5'])
+    
     y = df['Hand'].values
     X = df.loc[:, df.columns != 'Hand'].values
     
@@ -62,16 +34,8 @@ def main():
     # Compute values of N, M and C.
     N, M = X.shape # number of rows,columns in the dataset
     C = len(classNames)
+    attributeNames = list(df.loc[:, df.columns != 'Hand'])
     
-    prob_dict = {}
-    for hand in classDict.keys():
-        prob_dict[hand] = len(df[(df['Hand'] == hand)])/float(len(df))
-    
-    #Get names of  every attribute
-    attributeNames = list(df)
-#    
-#    
-#    
 #    # Temporary data -------------------------
 #    X = X[0:10000]    
 #    y = y[0:10000]
@@ -84,19 +48,10 @@ def main():
     K = 5
     CV = model_selection.KFold(n_splits=K,shuffle=True)    
     
-    
-    newX = np.concatenate((np.ones((X.shape[0],1)),X),1)
-    newX[:,2] = np.power(newX[:,2],2)  
-    
-    newAttributeNames = [u'Constant']+attributeNames
-    newM = len(attributeNames)+1
-    
-    
-    
     k = 0
     
     # Initialize variables
-    Features = np.zeros((newM,K))
+    Features = np.zeros((M,K))
     Error_train = np.empty((K,1))
     Error_test = np.empty((K,1))
     Error_train_fs = np.empty((K,1))
@@ -116,11 +71,11 @@ def main():
     for train_index, test_index in CV.split(X):
         
         # extract training and test set for current CV fold
-        X_train = newX[train_index,:]
+        X_train = X[train_index,:]
         y_train = y[train_index]
-        X_test = newX[test_index,:]
+        X_test = X[test_index,:]
         y_test = y[test_index]
-        internal_cross_validation = 5
+        internal_cross_validation = 10
         
         # Compute squared error without using the input data at all
         Error_train_nofeatures[k] = np.square(y_train-y_train.mean()).sum()/y_train.shape[0]
@@ -150,7 +105,7 @@ def main():
             ylabel('Squared error (crossvalidation)')    
             
             subplot(1,3,3)
-            bmplot(newAttributeNames, range(1,features_record.shape[1]), -features_record[:,1:])
+            bmplot(attributeNames, range(1,features_record.shape[1]), -features_record[:,1:])
             clim(-1.5,0)
             xlabel('Iteration')
             
@@ -183,9 +138,9 @@ def main():
     print('- R^2 train:     {0}'.format((Error_train_nofeatures.sum()-Error_train_fs.sum())/Error_train_nofeatures.sum()))
     print('- R^2 test:     {0}'.format((Error_test_nofeatures.sum()-Error_test_fs.sum())/Error_test_nofeatures.sum()))
     
-    figure(k)
+    figure(k, figsize=(18,18))
     subplot(1,3,2)
-    bmplot(newAttributeNames, range(1,Features.shape[1]+1), -Features)
+    bmplot(attributeNames, range(1,Features.shape[1]+1), -Features)
     clim(-1.5,0)
     xlabel('Crossvalidation fold')
     ylabel('Attribute')
@@ -200,17 +155,17 @@ def main():
     if len(ff) is 0:
         print('\nNo features were selected, i.e. the data (X) in the fold cannot describe the outcomes (y).' )
     else:
-        m = lm.LinearRegression(fit_intercept=True).fit(newX[:,ff], y)
+        m = lm.LinearRegression(fit_intercept=True).fit(X[:,ff], y)
         
-        y_est= m.predict(newX[:,ff])
+        y_est= m.predict(X[:,ff])
         residual=y-y_est
         
-        figure(k+1, figsize=(12,6))
+        figure(k+1, figsize=(14,6))
         title('Residual error vs. Attributes for features selected in cross-validation fold {0}'.format(f))
         for i in range(0,len(ff)):
            subplot(2,np.ceil(len(ff)/2.0),i+1)
-           plot(newX[:,ff[i]],residual,'.')
-           xlabel(newAttributeNames[ff[i]])
+           plot(X[:,ff[i]],residual,'.')
+           xlabel(attributeNames[ff[i]])
            ylabel('residual error')
         
         
