@@ -33,9 +33,9 @@ for i, col_id in enumerate(range(0, M)):
     X[:, i] = np.mat(doc.col_values(col_id, 1, N)).T
                 
 #    # Temporary data -------------------------
-X = X[0:10000]    
-y = y[0:10000]
-N = 10000
+X = X[0:100000]    
+y = y[0:100000]
+N = 100000
     #-----------------------------------------
 ## Normalize and compute PCA (UNCOMMENT to experiment with PCA preprocessing)
 #Y = stats.zscore(X,0);
@@ -48,7 +48,7 @@ N = 10000
 
 
 # Parameters for neural network classifier
-n_hidden_units = 10      # number of hidden units
+n_hidden_units = 2      # number of hidden units
 n_train = 3            # number of networks trained in each k-fold
 learning_goal = 0.5  # stop criterion 1 (train mse to be reached)
 max_epochs = 100        # stop criterion 2 (max epochs in training)
