@@ -47,9 +47,11 @@ def main():
     
     Error_linear_re = np.empty((K,1))
     Error_ann = np.empty((K,1))
-    Error_mean = np.empty((K,1))
     
-    # Linear regression
+    
+    ################################################################################################################
+    #####################################            Linear Regression             #################################
+    ################################################################################################################
     if 1:
         # Initialize variables
         Features = np.zeros((M,K))
@@ -147,6 +149,8 @@ def main():
         else:
             m = lm.LinearRegression(fit_intercept=True).fit(X[:,ff], y)
             
+            print("Coefficients: "  + m.coef_)
+            
             y_est= m.predict(X[:,ff])
             residual=y-y_est
             
@@ -161,7 +165,10 @@ def main():
             
         show()
         
-    # Artificial neural network
+    
+    ################################################################################################################
+    #####################################            Artificial neural network             #########################
+    ################################################################################################################
     if 1:
         # Parameters for neural network classifier
         n_hidden_units = 2      # number of hidden units
@@ -223,7 +230,9 @@ def main():
         subplot(2,1,2); plot((y_est-y_test)); title('Last CV-fold: prediction error (est_y-test_y)'); 
         show()    
     
-    # Average of the training data
+    ################################################################################################################
+    #####################################            Average of the training data             ######################
+    ################################################################################################################
     if 1:
          # K-fold crossvalidation
         K = 5                   # only five folds to speed up this example
@@ -242,12 +251,12 @@ def main():
             X_test = X[test_index,:]
             y_test = y[test_index]
             
+            # Get the average of the training data
             y_est = np.mean(y_train)
             errors[k] = np.power(y_est-y_test,2).sum().astype(float)/y_test.shape[0]
             
             k+=1
             
-            Error_mean[k] = 100*(y_est!=y_test).sum().astype(float)/len(y_test)
         print('Mean-square error: {0}'.format(np.mean(errors)))  
         
         
@@ -256,7 +265,7 @@ def main():
     # by computing credibility interval. Notice this can also be accomplished by computing the p-value using
     # [tstatistic, pvalue] = stats.ttest_ind(Error_logreg,Error_ann)
     # and test if the p-value is less than alpha=0.05. 
-    z = (Error_mean-Error_ann)
+    z = (Error_linear_re-Error_ann)
     zb = z.mean()
     nu = K-1
     sig =  (z-zb).std()  / np.sqrt(K-1)
@@ -272,7 +281,7 @@ def main():
         
     # Boxplot to compare classifier error distributions
     figure()
-    boxplot(np.concatenate((Error_linear_re, Error_ann, Error_mean),axis=1))
+    boxplot(np.concatenate((Error_linear_re, Error_ann),axis=1))
     xlabel('Linear Regression   vs.   Artificial Neural network')
     ylabel('Cross-validation error [%]')
     
