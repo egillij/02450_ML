@@ -123,7 +123,7 @@ def classify():
                 #     #Visualize decision tree
                 #     graph = graphviz.Source(tree.export_graphviz(dtc, out_file=None, feature_names=attributeNames))
                 #     png_bytes = graph.pipe(format='png')
-                #     with open('dtree_pipe{0}.png'.format(i), 'wb') as f:
+                #     with open('dtree_pipe.png', 'wb') as f:
                 #         f.write(png_bytes)
                 # except Exception as e:
                 #     print(e)
@@ -300,13 +300,13 @@ def classify():
 
     # plt.show()
 
-    z = (Error_test_dectree.mean(1) - Error_test_ann.mean(1))
+    z = ((1.0-Error_test_ann.mean(1))-(1.0-Error_test_dectree.mean(1)))
     zb = z.mean()
     nu = K - 1
     sig = (z - zb).std() / np.sqrt(K - 1)
     alpha = 0.05
     zl_1 = sig * stats.t.ppf(alpha / 2, nu)
-    zL = zb + sig * zl_1
+    zL = zb + zl_1
     zh_1 = sig * stats.t.ppf(1 - alpha / 2, nu)
     zH = zb + zh_1
 
@@ -326,22 +326,36 @@ def classify():
             ofile.write('Classifiers are significantly different.')
 
 
+    f = plt.figure(figsize=(12, 8))
+    plt.title("Misclassification rate\nDecision Tree vs. Artificial Neural Network", fontsize=32)
+    ann_mean = 1.0-Error_test_ann.mean(1)
+    print(ann_mean)
+    dt_mean = 1.0-Error_test_dectree.mean(1)
+    print(dt_mean)
+    plt.boxplot([dt_mean, ann_mean])
+    plt.ylabel('Test accuracy across CV folds, K={0}'.format(K), fontsize=28)
+    plt.xticks([1, 2], ['DT', 'ANN'], fontsize=26)
+    for tick in plt.gca().yaxis.get_major_ticks():
+        tick.label.set_fontsize(26)
+    plt.tight_layout()
+    plt.savefig("DTvsANN_boxplot.png")
+
+
 def cred_interval(error_list, method_name):
     accuracy = (1.0 - error_list).mean(1)
     mean_acc = accuracy.mean()
-    nu = len(mean_acc)-1
+    nu = len(accuracy)-1
     sig = (accuracy-mean_acc).std() / np.sqrt(nu)
     alpha = 0.05
-    accL = mean_acc + stats.t.ppf(alpha / 2, nu)
-    accH = mean_acc + stats.t.ppf(1 - alpha/2, nu)
+    accL = mean_acc + sig*stats.t.ppf(alpha / 2, nu)
+    accH = mean_acc + sig*stats.t.ppf(1 - alpha/2, nu)
 
-    with open('{0}_stats.txt'.format(method_name.replace(' ', '_'))) as of:
+    with open('{0}_stats.txt'.format(method_name.replace(' ', '_')), 'w') as of:
         of.write('Accuracy: {0}\n'.format(str(accuracy)))
         of.write('Mean Accuracy: {0}\n'.format(str(mean_acc)))
         of.write('Sigma: {0}\n'.format(str(sig)))
         of.write('Left: {0}\n'.format(str(accL)))
         of.write('Right: {0}\n'.format(str(accH)))
-
 
 def score_func(dataframe, weights):
     df_error = dataframe[(dataframe['value'] != dataframe["estimate"])]
