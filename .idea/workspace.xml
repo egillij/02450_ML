@@ -13,51 +13,7 @@
     <favorites_list name="Projects" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="classification.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Project2/classification.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="8840">
-              <caret line="527" column="10" lean-forward="false" selection-start-line="527" selection-start-column="10" selection-end-line="527" selection-end-column="10" />
-              <folding>
-                <element signature="e#17#38#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="classification_twofold.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/Project2/classification_twofold.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
-              <caret line="128" column="30" lean-forward="true" selection-start-line="128" selection-start-column="30" selection-end-line="128" selection-end-column="30" />
-              <folding>
-                <element signature="e#17#38#0" expanded="true" />
-                <element signature="e#2623#2816#1" expanded="false" />
-                <element signature="e#3739#3851#0" expanded="false" />
-                <element signature="e#7037#7149#0" expanded="false" />
-                <element signature="e#10670#10782#0" expanded="false" />
-                <element signature="e#12213#12239#0" expanded="false" />
-                <element signature="e#12505#12538#0" expanded="false" />
-                <element signature="e#14278#14390#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="dec_tree_depth.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Project2/dec_tree_depth.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1615">
-              <caret line="102" column="8" lean-forward="false" selection-start-line="102" selection-start-column="8" selection-end-line="102" selection-end-column="8" />
-              <folding>
-                <element signature="e#17#38#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -81,6 +37,7 @@
         <option value="$PROJECT_DIR$/Project2/dec_tree_depth.py" />
         <option value="$PROJECT_DIR$/Project2/classification.py" />
         <option value="$PROJECT_DIR$/Project2/classification_twofold.py" />
+        <option value="$PROJECT_DIR$/Project3/clustering.py" />
       </list>
     </option>
   </component>
@@ -104,8 +61,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -116,17 +71,14 @@
             <path>
               <item name="02450_ML" type="b2602c69:ProjectViewProjectNode" />
               <item name="02450_ML" type="462c0819:PsiDirectoryNode" />
-              <item name="Project1" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="02450_ML" type="b2602c69:ProjectViewProjectNode" />
-              <item name="02450_ML" type="462c0819:PsiDirectoryNode" />
-              <item name="Project2" type="462c0819:PsiDirectoryNode" />
+              <item name="Project3" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -145,7 +97,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.classification_twofold">
+  <component name="RunManager" selected="Python.clustering">
     <configuration name="classification" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -180,6 +132,23 @@
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
     </configuration>
+    <configuration name="clustering" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Project3" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="Projects" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Project3/clustering.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+    </configuration>
     <configuration name="dec_tree_depth" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -193,23 +162,6 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="Projects" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Project2/dec_tree_depth.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-    </configuration>
-    <configuration name="ex4_2_1" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Scripts" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="Projects" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Scripts/ex4_2_1.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -233,18 +185,18 @@
     </configuration>
     <list size="5">
       <item index="0" class="java.lang.String" itemvalue="Python.project1" />
-      <item index="1" class="java.lang.String" itemvalue="Python.ex4_2_1" />
-      <item index="2" class="java.lang.String" itemvalue="Python.classification" />
-      <item index="3" class="java.lang.String" itemvalue="Python.dec_tree_depth" />
-      <item index="4" class="java.lang.String" itemvalue="Python.classification_twofold" />
+      <item index="1" class="java.lang.String" itemvalue="Python.classification" />
+      <item index="2" class="java.lang.String" itemvalue="Python.dec_tree_depth" />
+      <item index="3" class="java.lang.String" itemvalue="Python.classification_twofold" />
+      <item index="4" class="java.lang.String" itemvalue="Python.clustering" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Python.classification_twofold" />
-        <item index="1" class="java.lang.String" itemvalue="Python.classification" />
-        <item index="2" class="java.lang.String" itemvalue="Python.dec_tree_depth" />
-        <item index="3" class="java.lang.String" itemvalue="Python.project1" />
-        <item index="4" class="java.lang.String" itemvalue="Python.ex4_2_1" />
+        <item index="0" class="java.lang.String" itemvalue="Python.clustering" />
+        <item index="1" class="java.lang.String" itemvalue="Python.classification_twofold" />
+        <item index="2" class="java.lang.String" itemvalue="Python.classification" />
+        <item index="3" class="java.lang.String" itemvalue="Python.dec_tree_depth" />
+        <item index="4" class="java.lang.String" itemvalue="Python.project1" />
       </list>
     </recent_temporary>
   </component>
@@ -276,16 +228,16 @@
   <component name="ToolWindowManager">
     <frame x="-7" y="0" width="974" height="1047" extended-state="0" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3118162" sideWeight="0.4911111" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.33369803" sideWeight="0.4911111" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32932165" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.5124594" sideWeight="0.5021322" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.29540482" sideWeight="0.4978678" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32932165" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32932165" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.29540482" sideWeight="0.4978678" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32932165" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.12153518" sideWeight="0.5088889" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39934355" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.12153518" sideWeight="0.5088889" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32932165" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -336,19 +288,42 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Project2/dec_tree_depth.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1615">
+          <caret line="102" column="8" lean-forward="false" selection-start-line="102" selection-start-column="8" selection-end-line="102" selection-end-column="8" />
+          <folding>
+            <element signature="e#17#38#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Project2/classification_twofold.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2040">
+          <caret line="128" column="30" lean-forward="true" selection-start-line="128" selection-start-column="30" selection-end-line="128" selection-end-column="30" />
+          <folding>
+            <element signature="e#17#38#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Project2/classification.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="8840">
+          <caret line="527" column="10" lean-forward="false" selection-start-line="527" selection-start-column="10" selection-end-line="527" selection-end-column="10" />
+          <folding>
+            <element signature="e#17#38#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Project2/classification_twofold.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="5950">
           <caret line="378" column="45" lean-forward="false" selection-start-line="378" selection-start-column="45" selection-end-line="378" selection-end-column="45" />
           <folding>
             <element signature="e#17#38#0" expanded="true" />
-            <element signature="e#2623#2816#1" expanded="false" />
-            <element signature="e#3739#3851#0" expanded="false" />
-            <element signature="e#7037#7149#0" expanded="false" />
-            <element signature="e#10670#10782#0" expanded="false" />
-            <element signature="e#12213#12239#0" expanded="false" />
-            <element signature="e#12505#12538#0" expanded="false" />
-            <element signature="e#14278#14390#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -389,13 +364,6 @@
           <caret line="217" column="0" lean-forward="true" selection-start-line="217" selection-start-column="0" selection-end-line="217" selection-end-column="0" />
           <folding>
             <element signature="e#17#38#0" expanded="true" />
-            <element signature="e#2623#2816#1" expanded="false" />
-            <element signature="e#3739#3851#0" expanded="false" />
-            <element signature="e#7037#7149#0" expanded="false" />
-            <element signature="e#10670#10782#0" expanded="false" />
-            <element signature="e#12213#12239#0" expanded="false" />
-            <element signature="e#12505#12538#0" expanded="false" />
-            <element signature="e#14278#14390#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -416,13 +384,6 @@
           <caret line="221" column="0" lean-forward="false" selection-start-line="221" selection-start-column="0" selection-end-line="221" selection-end-column="0" />
           <folding>
             <element signature="e#17#38#0" expanded="true" />
-            <element signature="e#2623#2816#1" expanded="false" />
-            <element signature="e#3739#3851#0" expanded="false" />
-            <element signature="e#7037#7149#0" expanded="false" />
-            <element signature="e#10670#10782#0" expanded="false" />
-            <element signature="e#12213#12239#0" expanded="false" />
-            <element signature="e#12505#12538#0" expanded="false" />
-            <element signature="e#14278#14390#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -453,13 +414,6 @@
           <caret line="515" column="79" lean-forward="false" selection-start-line="515" selection-start-column="79" selection-end-line="515" selection-end-column="79" />
           <folding>
             <element signature="e#17#38#0" expanded="true" />
-            <element signature="e#2623#2816#1" expanded="false" />
-            <element signature="e#3739#3851#0" expanded="false" />
-            <element signature="e#7037#7149#0" expanded="false" />
-            <element signature="e#10670#10782#0" expanded="false" />
-            <element signature="e#12213#12239#0" expanded="false" />
-            <element signature="e#12505#12538#0" expanded="false" />
-            <element signature="e#14278#14390#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -500,13 +454,6 @@
           <caret line="515" column="79" lean-forward="true" selection-start-line="515" selection-start-column="79" selection-end-line="515" selection-end-column="79" />
           <folding>
             <element signature="e#17#38#0" expanded="true" />
-            <element signature="e#2623#2816#1" expanded="false" />
-            <element signature="e#3739#3851#0" expanded="false" />
-            <element signature="e#7037#7149#0" expanded="false" />
-            <element signature="e#10670#10782#0" expanded="false" />
-            <element signature="e#12213#12239#0" expanded="false" />
-            <element signature="e#12505#12538#0" expanded="false" />
-            <element signature="e#14278#14390#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -627,16 +574,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Project2/classification.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="8840">
-          <caret line="527" column="10" lean-forward="false" selection-start-line="527" selection-start-column="10" selection-end-line="527" selection-end-column="10" />
-          <folding>
-            <element signature="e#17#38#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Project2/dec_tree_depth.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1615">
@@ -647,19 +584,33 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Project2/classification_twofold.py">
+    <entry file="file://$PROJECT_DIR$/Project2/classification.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="128" column="30" lean-forward="true" selection-start-line="128" selection-start-column="30" selection-end-line="128" selection-end-column="30" />
+        <state relative-caret-position="814">
+          <caret line="527" column="10" lean-forward="false" selection-start-line="527" selection-start-column="10" selection-end-line="527" selection-end-column="10" />
           <folding>
             <element signature="e#17#38#0" expanded="true" />
-            <element signature="e#2623#2816#1" expanded="false" />
-            <element signature="e#3739#3851#0" expanded="false" />
-            <element signature="e#7037#7149#0" expanded="false" />
-            <element signature="e#10670#10782#0" expanded="false" />
-            <element signature="e#12213#12239#0" expanded="false" />
-            <element signature="e#12505#12538#0" expanded="false" />
-            <element signature="e#14278#14390#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Project2/classification_twofold.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="355">
+          <caret line="110" column="0" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="163" selection-end-column="10" />
+          <folding>
+            <element signature="e#17#38#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Project3/clustering.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="75" column="25" lean-forward="true" selection-start-line="75" selection-start-column="25" selection-end-line="75" selection-end-column="25" />
+          <folding>
+            <element signature="e#17#38#0" expanded="true" />
+            <element signature="e#2626#2819#1" expanded="false" />
           </folding>
         </state>
       </provider>
