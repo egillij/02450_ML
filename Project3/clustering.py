@@ -23,40 +23,6 @@ classNames = ["Nothing", "One pair", "Two pairs", "Three of a kind", "Straight",
 classDict = dict(zip(range(len(classNames)), classNames))
 
 
-def text_summary(class_report, conf_matrices, variable, class_type, variable_name, folds, error, error_weighted,
-                 prob_dict):
-    '''
-    Makes a text file with classification results
-
-    :param class_report: LIST of STRINGs containing classification reports - size=[len(folds)xlen(variable)]
-    :param conf_matrices: LIST of STRINGs containing confusion matrices - size=[len(folds)xlen(variable)]
-    :param variable: LIST of the values that is varied during the cross-validation process
-    :param class_type: STRING containing the type of classification
-    :param variable_name: STRING containing the name of the variable that is varied in cross-validation
-    :param folds: INT - the number of cross-validation folds
-    :return:
-    '''
-    with open("{0}.txt".format(class_type), 'w') as of:
-        for j in range(folds):
-            of.write('---------- FOLD # {0} ---------\n'.format(j + 1))
-            for i, v in enumerate(variable):
-                of.write('--------------------  {0} = {1}  --------------------\n'.format(variable_name, v))
-                of.write(class_report[j][i])
-                of.write("\n")
-
-                of.write('--------- CONFUSION MATRIX ------------\n')
-                of.write(conf_matrices[j][i])
-                of.write("\n\n")
-
-        of.write('\n--------------------------------------------------------\n\n')
-        of.write('------- MISCLASSIFICATION TABLE -------\n\n')
-        of.write('{0}: {1}\n'.format(variable_name, str(variable)))
-        of.write('CV folds: {0}\n'.format(folds))
-        of.write('\n\nMISCLASSIFICATION\n{0}'.format(str(error)))
-        of.write('\n\nMISCLASSIFICATION WEIGHTED\n{0}'.format(str(error)))
-        of.write('\n\nWEIGHTS\n{0}'.format(str(prob_dict)))
-
-
 def clustering():
     '''
     Performs a classification task on a poker hand dataset with various classification methods.
@@ -82,12 +48,19 @@ def clustering():
     for hand in classDict.keys():
         prob_dict[hand] = len(df[(df['Hand'] == hand)]) / float(len(df))
 
-    X = zscore(X, ddof=1)
-    # X = X - np.ones((X.shape[0],1))*X.mean(0)
 
-    X = X[0:10000]
-    y = y[0:10000]
+    #Because of the size of the data set make a subset of the data because of the runtime
+    SS = model_selection.KFold(n_splits=4, shuffle=True)
+    for train_index, test_index in SS.split(X):
+        X = X[test_index]
+        y = y[test_index]
+        break
+    # X = (X - np.ones((X.shape[0],1))*X.mean(0))
 
+    # X = X[0:25000]
+    # y = y[0:25000]
+
+    print(X.shape)
 
 
     print("DATA LOADED")
@@ -104,7 +77,7 @@ def clustering():
     if 1:
         print("GMM commencing at {0}".format(dt.datetime.now()))
         # Range of K's to try
-        KRange = range(1, 15)
+        KRange = [20] #range(14, 0, -1)
         T = len(KRange)
 
         covar_type = 'full'  # you can try out 'diag' as well
@@ -140,13 +113,13 @@ def clustering():
                 # compute negative log likelihood of X_test
                 CVE[t] += -gmm.score_samples(X_test).sum()
 
-            df_score = pd.DataFrame.from_dict(data={'BIC': BIC, 'AIC': AIC, 'CVE': 2 * CVE})
+            df_score = pd.DataFrame.from_dict(data={'K': KRange, 'BIC': BIC, 'AIC': AIC, 'CVE': 2 * CVE})
 
             writer = pd.ExcelWriter("clustering_errors.xlsx", engine="xlsxwriter")
             df_score.to_excel(writer, sheet_name="GMM")
 
         # Store results in excel
-        df_score = pd.DataFrame.from_dict(data={'BIC': BIC, 'AIC': AIC, 'CVE': 2*CVE})
+        df_score = pd.DataFrame.from_dict(data={'K': KRange, 'BIC': BIC, 'AIC': AIC, 'CVE': 2*CVE})
 
         writer = pd.ExcelWriter("clustering_errors.xlsx", engine="xlsxwriter")
         df_score.to_excel(writer, sheet_name="GMM")
@@ -270,20 +243,24 @@ def clustering():
         Z = linkage(X, method=Method, metric=Metric)
 
         # Compute and display clusters by thresholding the dendrogram
-        Maxclust = 10
+        Maxclust = 13
         cls = fcluster(Z, criterion='maxclust', t=Maxclust)
         plt.figure()
         clusterplot(X, cls, y=y)
 
         # Display dendrogram
-        max_display_levels = 10
+        max_display_levels = 14
         plt.figure(figsize=(10, 4))
         dendrogram(Z, truncate_mode='level', p=max_display_levels)
+        plt.savefig("dendogram.png")
 
         cluster_distribution = validate_clusters(cls, y)
         for i in range(len(cluster_distribution)):
-            plt.figure()
-            plt.hist(cluster_distribution[i], normed=True)
+            plt.figure(figsize=(12, 8))
+            # print(cluster_distribution[i])
+            hist, bins = np.histogram(cluster_distribution[i], bins=[i for i in range(11)], normed=True)
+            plt.bar(bins[0:-1], hist * 100.0, align="center")
+            # plt.hist(cluster_distribution[i], normed=True)
             plt.title("Normalized Histogram\nCLUSTER " + str(i+1), fontsize=32)
             plt.xlabel("CLASS LABEL", fontsize=28)
             plt.ylabel("PERCENTAGE OF CLASS [%]", fontsize=28)
@@ -300,7 +277,7 @@ def validate_clusters(clusters, classes):
     nr_classes = len(np.unique(clusters))
 
     data = [[] for x in range(nr_clusters)]
-    for i_ind in range(max(clusters)):
+    for i_ind in range(len(clusters)):
         data[clusters[i_ind]-1].append(classes[i_ind])
 
     return data
