@@ -74,10 +74,10 @@ def clustering():
     ####################################################################################################################
     #####################################          GAUSSIAN MIXTURE MODEL          #####################################
     ####################################################################################################################
-    if 1:
+    if 0:
         print("GMM commencing at {0}".format(dt.datetime.now()))
         # Range of K's to try
-        KRange = [20] #range(14, 0, -1)
+        KRange = [18, 19] #range(14, 0, -1)
         T = len(KRange)
 
         covar_type = 'full'  # you can try out 'diag' as well
@@ -126,24 +126,6 @@ def clustering():
 
         # Plot results
 
-        plt.figure(figsize=(12,8))
-        plt.plot(KRange, BIC, '-*b', linewidth=3, markersize=10)
-        plt.plot(KRange, AIC, '-xr', linewidth=3, markersize=10)
-        plt.plot(KRange, 2 * CVE, '-ok', linewidth=3, markersize=10)
-        plt.legend(['BIC', 'AIC', 'Crossvalidation'], fontsize=26)
-        plt.xlabel('Number of components (K)', fontsize=28)
-        plt.title('GMM Model validation', fontsize=32)
-        plt.rc('font', **{'size': '26'})
-        # plt.ticklabel_format(useOffset=False, style='sci', axis='y', size=26)
-        for tick in plt.gca().xaxis.get_major_ticks():
-            tick.label.set_fontsize(26)
-
-        for tick in plt.gca().yaxis.get_major_ticks():
-            tick.label.set_fontsize(26)
-        plt.gca().yaxis.offsetText.set_fontsize(26)
-
-        plt.savefig("GMM_likelihoods_all.png")
-
         plt.figure(figsize=(12, 8))
         plt.plot(KRange[:10], BIC[:10], '-*b', linewidth=3, markersize=10)
         plt.plot(KRange[:10], AIC[:10], '-xr', linewidth=3, markersize=10)
@@ -164,7 +146,7 @@ def clustering():
 
         print("GMM completed at {0}".format(dt.datetime.now()))
 
-    if 0:
+    if 1:
         print("GMM commencing at {0}".format(dt.datetime.now()))
         # Range of K's to try
 
@@ -173,7 +155,7 @@ def clustering():
 
         # K-fold crossvalidation
         CV = model_selection.KFold(n_splits=10, shuffle=True)
-        K=10
+        K=17
         print('Fitting model for K={0}'.format(K))
 
         # Fit Gaussian mixture model
@@ -199,8 +181,8 @@ def clustering():
             cls_gmm = gmm.predict(X_test)
             cls_all_test.extend(cls_gmm)
 
-        print(y_all_test)
-        print(cls_all_test)
+        # print(y_all_test)
+        # print(cls_all_test)
 
         # print("\nMEANS:\n{0}".format(str(gmm_mean)))
         # print("\n\nCOVARIANCE:\n{0}".format(str(gmm_cov)))
@@ -214,15 +196,20 @@ def clustering():
         gmm_distribution = validate_clusters(cls_all_test, y_all_test)
 
         for i in range(len(gmm_distribution)):
-            plt.figure(figsize=(12, 8))
+            plt.figure(figsize=(15, 10))
             hist, bins = np.histogram(gmm_distribution[i], bins=[i for i in range(11)], normed=True)
             print(hist)
             print(bins)
             plt.bar(bins[0:-1], hist*100.0, align="center")
-            plt.title("Normalized Histogram\nCLUSTER " + str(i + 1), fontsize=32)
-            plt.xlabel("CLASS LABEL", fontsize=28)
-            plt.ylabel("PERCENTAGE OF CLASS [%]", fontsize=28)
+            plt.title("Normalized Histogram\nCLUSTER " + str(i + 1), fontsize=44)
+            plt.xlabel("CLASS LABEL", fontsize=40)
+            plt.ylabel("PERCENTAGE OF CLASS [%]", fontsize=40)
             plt.grid()
+            for tick in plt.gca().xaxis.get_major_ticks():
+                tick.label.set_fontsize(38)
+
+            for tick in plt.gca().yaxis.get_major_ticks():
+                tick.label.set_fontsize(38)
             plt.savefig("GMM_CLUSTER_{0}_histogram.png".format(i + 1))
 
         print("GMM completed at {0}".format(dt.datetime.now()))
@@ -243,7 +230,7 @@ def clustering():
         Z = linkage(X, method=Method, metric=Metric)
 
         # Compute and display clusters by thresholding the dendrogram
-        Maxclust = 13
+        Maxclust = 17
         cls = fcluster(Z, criterion='maxclust', t=Maxclust)
         plt.figure()
         clusterplot(X, cls, y=y)
@@ -256,19 +243,22 @@ def clustering():
 
         cluster_distribution = validate_clusters(cls, y)
         for i in range(len(cluster_distribution)):
-            plt.figure(figsize=(12, 8))
+            plt.figure(figsize=(15, 10))
             # print(cluster_distribution[i])
             hist, bins = np.histogram(cluster_distribution[i], bins=[i for i in range(11)], normed=True)
             plt.bar(bins[0:-1], hist * 100.0, align="center")
             # plt.hist(cluster_distribution[i], normed=True)
-            plt.title("Normalized Histogram\nCLUSTER " + str(i+1), fontsize=32)
-            plt.xlabel("CLASS LABEL", fontsize=28)
-            plt.ylabel("PERCENTAGE OF CLASS [%]", fontsize=28)
+            plt.title("Normalized Histogram\nCLUSTER " + str(i+1), fontsize=44)
+            plt.xlabel("CLASS LABEL", fontsize=40)
+            plt.ylabel("PERCENTAGE OF CLASS [%]", fontsize=40)
             plt.grid()
+            for tick in plt.gca().xaxis.get_major_ticks():
+                tick.label.set_fontsize(38)
+
+            for tick in plt.gca().yaxis.get_major_ticks():
+                tick.label.set_fontsize(38)
+
             plt.savefig("CLUSTER_{0}_histogram.png".format(i+1))
-
-
-
 
     # plt.show()
 
